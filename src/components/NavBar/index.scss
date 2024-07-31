@@ -1,0 +1,54 @@
+.container-navBar {
+    background-color: rgb(251, 251, 239);
+    max-width: 1440px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem; 
+    border-bottom: 1px solid #d1d5db; 
+
+    .logo-site {
+        width: 70px;
+        height: 70px;
+    }
+
+    .link-connect {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #001B32;
+        text-decoration: none;
+
+        @media screen and (min-width: 768px) {
+            gap: 1rem;
+        }
+
+        .logo-user {
+            width: 2rem;
+            height: 2rem;
+            color: #fff;
+            background-color: #001B32;
+            border-radius: 25%;
+            padding: 5px;
+
+            @media screen and (min-width: 768px) {
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+        }
+
+        .connect-subscribe {
+            font-size: 16px;
+            font-weight: 500;
+
+            @media screen and (min-width: 768px) {
+                font-size: 18px;
+                font-weight: 600;
+            }
+        }
+    }
+}
