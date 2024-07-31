@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { User } from 'lucide-react';
-import Logo from "../../../public/logo-site.png"
+import Logo from "../../../public/logo-site.webp"
 import "./index.scss"
 
 export default function NavBar() {
