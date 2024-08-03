@@ -1,6 +1,5 @@
 import "./index.scss";
-import ImageCuisine from "../../../public/cuisine.webp";
-// import ImageCuisine2 from "../../../public/cuisine2.webp";
+import ImageCuisine from "/cuisine.webp";
 
 export default function Header() {
   return (
@@ -24,8 +23,8 @@ export default function Header() {
           <img
             src={ImageCuisine}
             alt="photo de préparation culinaire"
-            width={600}
-            height={300}
+            // width={600}
+            // height={300}
             className="img-cook"
             loading="lazy"
           />
