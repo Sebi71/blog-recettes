@@ -1,2 +1,7 @@
 /* style.css */
 @import 'bootstrap/dist/css/bootstrap-reboot.min.css';
+
+
+html,body {
+    height: 100%;
+  }

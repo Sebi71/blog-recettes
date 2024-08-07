@@ -9,7 +9,11 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendPasswordResetEmail,
-  signOut
+  signOut,
+  getAuth,
+  updatePassword,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
 } from "firebase/auth";
 
 const providerGoogle = new GoogleAuthProvider();
@@ -17,7 +21,6 @@ const providerGoogle = new GoogleAuthProvider();
 const useAuth = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
- 
 
   const loginWithGoogle = async () => {
     try {
@@ -31,29 +34,36 @@ const useAuth = () => {
 
   const signUp = async (name, email, password) => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       await updateProfile(userCredential.user, { displayName: name });
       setUser(userCredential.user);
       navigate("/dashboard");
     } catch (error) {
       console.error("Error during sign up:", error);
-      throw new Error(error.message); 
+      throw new Error(error.message);
     }
   };
 
   const signIn = async (email, password) => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       setUser(userCredential.user);
       navigate("/dashboard");
     } catch (error) {
-        console.error("Error during sign in:", error);
-        throw new Error(error)
+      console.error("Error during sign in:", error);
+      throw new Error(error);
     }
   };
 
-
-const resetPassword = async (email) => {
+  const resetPassword = async (email) => {
     try {
       await sendPasswordResetEmail(auth, email);
       return "Email de réinitialisation envoyé !";
@@ -65,12 +75,12 @@ const resetPassword = async (email) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-            setUser(user);
-            return
-        } else {
-            setUser(null);
-        }
+      if (user) {
+        setUser(user);
+        return;
+      } else {
+        setUser(null);
+      }
     });
     return () => unsubscribe();
   }, []);
@@ -90,7 +100,15 @@ const resetPassword = async (email) => {
     }
   };
 
-  return { user, loginWithGoogle, signUp, signIn, resetPassword, redirectIfAuth, logout };
-}
+  return {
+    user,
+    loginWithGoogle,
+    signUp,
+    signIn,
+    resetPassword,
+    redirectIfAuth,
+    logout,
+  };
+};
 
 export default useAuth;

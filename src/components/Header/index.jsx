@@ -3,7 +3,7 @@ import ImageCuisine from "/cuisine.webp";
 
 export default function Header() {
   return (
-    <section className="container-header">
+    <div className="container-header">
       <h1 className="header-title">Book recettes</h1>
       <div className="header-content">
         <div className="header-content-text">
@@ -42,7 +42,7 @@ export default function Header() {
           </p>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
 

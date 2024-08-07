@@ -1,133 +1,29 @@
-import { useEffect, useState } from "react";
-// import { auth } from "../../db/firebase";
+import { useEffect } from "react";
 import useAuth from "../../hook/useAuth";
-import * as Yup from "yup";
-// import { useNavigate } from "react-router-dom";
+import useAuthActions from "../../Actions/authActions";
 import logoGoogle from "/logo-google.webp";
 import "./index.scss";
 
-const signUpSchema = Yup.object().shape({
-  name: Yup.string().required("Pseudo obligatoire"),
-  email: Yup.string().email("Format invalide").required("Email obligatoire"),
-  password: Yup.string()
-    .min(8, "Mot de passe trop court")
-    .matches(/[A-Z]/, "Le mot de passe doit contenir au moins une majuscule")
-    .matches(/[a-z]/, "Le mot de passe doit contenir au moins une minuscule")
-    .matches(/\d/, "Le mot de passe doit contenir au moins un chiffre")
-    .matches(/[@#$!%*?&.,;:()_+={}~-]/, "Le mot de passe doit contenir au moins un caractère spécial")
-    .required("Mot de passe obligatoire"),
-});
-
-const signInSchema = Yup.object().shape({
-  email: Yup.string().email("Format invalide").required("Email obligatoire"),
-  password: Yup.string()
-    .min(8, "Mot de passe trop court")
-    .matches(/[A-Z]/, "Le mot de passe doit contenir au moins une majuscule")
-    .matches(/[a-z]/, "Le mot de passe doit contenir au moins une minuscule")
-    .matches(/\d/, "Le mot de passe doit contenir au moins un chiffre")
-    .matches(/[@#$!%*?&.,;:()_+={}~-]/, "Le mot de passe doit contenir au moins un caractère spécial")
-    .required("Mot de passe obligatoire"),
-});
-
 export default function SignInSignUp() {
-  const { signUp, signIn, loginWithGoogle, resetPassword, redirectIfAuth } =
-    useAuth();
+  const { loginWithGoogle, redirectIfAuth } = useAuth();
 
-  // const navigate = useNavigate();
-  const [isSignUpActive, setIsSignUpActive] = useState(false);
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [errors, setErrors] = useState("");
-  const [errorsAuth, setErrorsAuth] = useState("");
-  const [messageResetPassword, setMessageResetPassword] = useState("");
+  const {
+    isSignUpActive,
+    formData,
+    errors,
+    errorsAuth,
+    messageResetPassword,
+    handleFormChange,
+    handleInputChange,
+    handleSignIn,
+    handleResetPassword,
+    handleFormSubmit,
+  } = useAuthActions();
 
   useEffect(() => {
     redirectIfAuth();
   }, [redirectIfAuth]);
-
-  const handleFormChange = () => {
-    setIsSignUpActive(!isSignUpActive);
-    setFormData({ email: "", password: "" });
-    setErrors("");
-    setErrorsAuth("");
-  };
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleSignUp = () => {
-    signUpSchema
-      .validate(formData, { abortEarly: false })
-      .then(() => {
-        signUp(formData.name, formData.email, formData.password);
-      })
-      .catch((validationErrors) => {
-        const formattedErrors = {};
-        validationErrors.inner.forEach((error) => {
-          formattedErrors[error.path] = error.message;
-        });
-        setErrors(formattedErrors);
-      });
-  };
-
-  const handleSignIn = async () => {
-    try {
-      await signInSchema.validate(formData, { abortEarly: false });
-      await signIn(formData.email, formData.password);
-    } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        const formattedErrors = {};
-        error.inner.forEach((err) => {
-          if (err.path) {
-            formattedErrors[err.path] = err.message;
-          }
-        });
-        setErrors(formattedErrors);
-      } else if (error instanceof Error) {
-        const errorMessage = error.message;
-        if (errorMessage.includes("auth/invalid-credential")) {
-          setErrorsAuth("Email ou mot de passe incorrect.");
-        } else {
-          setErrorsAuth(
-            "Une erreur est survenue. Veuillez réessayer plus tard."
-          );
-        }
-      }
-    }
-  };
-
-  const handleResetPassword = async () => {
-    if (formData.email) {
-      try {
-        const message = await resetPassword(formData.email);
-        setMessageResetPassword(message);
-        setErrors("");
-        setErrorsAuth("");
-        setFormData((prevData) => ({ ...prevData, password: "" }));
-      } catch (error) {
-        setMessageResetPassword(error.message);
-      }
-    } else {
-      setErrors({
-        email:
-          "Veuillez entrer votre adresse email pour réinitialiser votre mot de passe.",
-      });
-    }
-  };
-
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    if (isSignUpActive) {
-      handleSignUp();
-    } else {
-      handleSignIn();
-    }
-  };
-
+ 
   return (
     <section className="container">
       <form onSubmit={handleFormSubmit} className="form">
@@ -183,7 +79,11 @@ export default function SignInSignUp() {
           value={formData.password || ""}
         />
 
-        {isSignUpActive && <p className="info-password">Majuscule, minuscule, chiffre, caractère obligatoires</p>}
+        {isSignUpActive && (
+          <p className="info-password">
+            Majuscule, minuscule, chiffre, caractère obligatoires
+          </p>
+        )}
 
         {errors.password && <p className="error">{errors.password}</p>}
         {errorsAuth && <p className="error">{errorsAuth}</p>}

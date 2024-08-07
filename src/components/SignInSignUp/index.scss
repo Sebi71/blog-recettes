@@ -3,14 +3,13 @@
   flex-direction: column;
   gap: 20px;
   width: 90%;
+  min-height: 75vh;
   margin: 3rem auto;
-  display: flex;
   align-items: center;
   justify-content: center;
 
   .form {
     width: 70%;
-    // min-height: 392px;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
