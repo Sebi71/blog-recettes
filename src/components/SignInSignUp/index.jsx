@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useAuth from "../../hook/useAuth";
-import useAuthActions from "../../Actions/authActions";
+import useAuthActions from "../../hook/authActions";
 import logoGoogle from "/logo-google.webp";
 import "./index.scss";
 

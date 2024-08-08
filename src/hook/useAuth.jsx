@@ -9,11 +9,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendPasswordResetEmail,
-  signOut,
-  getAuth,
-  updatePassword,
-  reauthenticateWithCredential,
-  EmailAuthProvider,
+  signOut
 } from "firebase/auth";
 
 const providerGoogle = new GoogleAuthProvider();
@@ -99,6 +95,8 @@ const useAuth = () => {
       console.error("Error during logout:", error);
     }
   };
+
+
 
   return {
     user,
