@@ -4,30 +4,52 @@ import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../db/firebase";
+import useAuth from "../../hook/useAuth";
 import { useNavigate } from "react-router-dom";
 import { Undo2 } from "lucide-react";
-import DefaultImg from "../../../public/default-img.webp";
-
+import DefaultImg from "/default-img.webp";
 import "./index.scss";
+import Loader from "../../components/Load";
+import NotFound from "../NotFound";
 
 export default function Cooking() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { id } = useParams();
   const [cooking, setCooking] = useState({});
-  console.log(cooking.name);
+  //   console.log(cooking);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     const cookingId = id;
     const unsubscribe = onSnapshot(collection(db, "cookings"), (snapshot) => {
+      let found = false;
       snapshot.forEach((doc) => {
         const data = doc.data();
         if (doc.id === cookingId) {
           setCooking({ id: doc.id, ...data });
+          found = true;
         }
       });
+      if (!found) {
+        setCooking(null);
+      }
+      setLoading(false);
     });
     return () => unsubscribe();
   }, [id]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (!cooking) {
+    return <NotFound />;
+  }
 
   const createdAtDate = cooking.createdAt?.toDate();
   const formattedDate = createdAtDate?.toLocaleDateString("fr-FR", {
@@ -40,15 +62,25 @@ export default function Cooking() {
     navigate("/dashboard");
   };
 
-  if (!cooking) {
-    return <div>Recette introuvable</div>;
-  }
+  const handleHome = () => {
+    navigate("/");
+  };
 
   return (
     <>
       <NavBar />
       <section className="container-cookingId">
-        <Undo2 onClick={handleReturn} className="return-dashboard" />
+        <div className="btn-container">
+          <Undo2 onClick={handleHome} className="return-home" />
+          {cooking?.authorId === user?.uid && (
+            <div className="btn-admin">
+                <button onClick={handleReturn} className="return-dashboard">
+                  Dashboard
+                </button>
+                <button className="btn-update">Modifier</button>
+            </div>
+          )}
+        </div>
         <h1 className="title-cookingId">{cooking?.name}</h1>
         <p className="user-cookingId">
           Ajouté par : {cooking?.authorName}, le {formattedDate}
@@ -93,7 +125,11 @@ export default function Cooking() {
 
         {cooking?.link && (
           <div className="link-cookingId">
-            <p>Retrouver la recette <span className="name-cookingId">{cooking?.name}</span> sur le site :</p>
+            <p>
+              Retrouver la recette{" "}
+              <span className="name-cookingId">{cooking?.name}</span> sur le
+              site :
+            </p>
             <Link to={cooking?.link} target="_blank" rel="noopener">
               {cooking?.link}
             </Link>

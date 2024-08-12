@@ -1,23 +1,81 @@
 .container-cookingId {
   max-width: 1400px;
+  min-height: 100vh;
   margin: auto;
 
-  .return-dashboard {
-    margin-left: 5%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
+  .btn-container {
     margin-top: 2rem;
-    color: #fff;
-    background-color: #001b32;
-    border-radius: 50%;
-    padding: 5px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    @media screen and (min-width: 768px) {
+      gap: 2rem;
+    }
+
+    .return-home {
+      margin-left: 5%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      color: #fff;
+      background-color: #001b32;
+      border-radius: 50%;
+      padding: 5px;
+    }
+
+    .btn-admin {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      @media screen and (min-width: 768px) {
+        gap: 1rem;
+      }
+
+      .return-dashboard{
+        background-color: #fbfbef;
+
+      }
+
+      .btn-update {
+        background-color: #fff391;
+      }
+
+      .btn-update,
+      .return-dashboard {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #d1d5db;
+        height: 30px;
+        width: 90px;
+        padding: 5px;
+        border-radius: 25px;
+        font-weight: 500;
+
+        @media screen and (min-width: 768px) {
+          height: 40px;
+          width: 100px;
+          background-color: #fbfbef;
+
+          &:hover {
+            background-color: #b6b659;
+          }
+        }
+      }
+    }
   }
 
   .title-cookingId {
     text-align: center;
     text-transform: capitalize;
     color: #001b32;
+    margin-top: 2rem;
+
+    @media screen and (min-width: 768px) {
+      margin-top: 0;
+    }
   }
 
   .user-cookingId {
@@ -95,7 +153,7 @@
   }
 
   .link-cookingId {
-    margin:5rem 2rem 2rem;
+    margin: 5rem 2rem 2rem;
     height: 100vh;
     color: #001b32;
     font-size: 16px;

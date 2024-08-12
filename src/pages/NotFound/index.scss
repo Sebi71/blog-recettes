@@ -1,0 +1,36 @@
+.container-notfound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 90px 0 100px 0;
+
+  .image-error {
+    width: 50%;
+
+    @media (min-width: 768px) {
+      width: 30%;
+    }
+  }
+
+  .text-error {
+    font-size: 22px;
+    text-align: center;
+    margin: 80px 20px;
+
+    @media (min-width: 768px) {
+      margin: 100px 20px;
+      font-size: 32px;
+    }
+  }
+
+  .link-to-home {
+    font-size: 18px;
+    font-weight: 700;
+    color: #001b32;
+
+    @media (min-width: 768px) {
+      font-size: 26px;
+    }
+  }
+}

@@ -61,7 +61,6 @@ export default function Card() {
                 <p className="card-category">{item.category}</p>
               </div>
             </Link>
-            {/* <div> */}
             <button
               onClick={() => deleteCooking(item.id, item.image, item.pdf)}
               className="btn-delete"
@@ -69,10 +68,10 @@ export default function Card() {
               Supprimer
             </button>
             {/* gestion erreur */}
-            {/* </div> */}
           </div>
         ))}
       </div>
     </div>
   );
 }
+

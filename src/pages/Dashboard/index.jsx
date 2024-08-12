@@ -10,6 +10,10 @@ import "./index.scss";
 
 export default function Dashboard() {
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const toastMessage = localStorage.getItem("toastMessage");
     // console.log(toastMessage);
 
@@ -20,7 +24,6 @@ export default function Dashboard() {
         // console.log("Toast message removed");
       }, 500);
     }
-
   }, []);
 
   return (
