@@ -7,5 +7,85 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
+
+    .ingredient-item {
+
+      .remove-ingredient-btn {
+        width: 30px;
+        height: 30px;
+        color: #ef4444;
+        cursor: pointer;
+        margin-left: 5px;
+      }
+    }
+
+    .add-ingredient-btn {
+      background-color: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      width: 12rem;
+      height: 2.5rem;
+      cursor: pointer;
+      margin: 0.5rem auto 0;
+    }
+
+    .label-form {
+      color: #001b32;
+      font-weight: 600;
+    }
+
+    .input-form,
+    .input-category {
+      // width: 100%;
+      border: 1px solid #001b32;
+      height: 2.5rem;
+      border-radius: 4px;
+      color: #001b32;
+    }
+
+    .input-form {
+      padding: 1rem;
+    }
+
+    .input-textarea {
+      // width: 100%;
+      height: 150px;
+      padding: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      resize: vertical;
+    }
+
+    .input-file {
+      color: #001b32;
+    }
+
+    .error-form {
+      color: red;
+    }
+  }
+
+  .view-image {
+    width: 100px;
+  }
+
+  .btn-form {
+    background-color: #001b32;
+    color: #fff;
+    border-radius: 8px;
+    border: none;
+    height: 2.5rem;
+    width: 12rem;
+    margin: auto;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #2563eb;
+    }
   }
 }
+
+
+

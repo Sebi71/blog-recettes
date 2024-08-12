@@ -11,7 +11,7 @@ export default function Profil() {
     <div className="container-profil">
       <div className="content-profil">
         <h1 className="profil-title">Profil utilisateur</h1>
-        <h3 className="profil-subtitle">Votre profil</h3>
+        <h2 className="profil-subtitle">Votre profil</h2>
       </div>
       <div>
         <ul className="content-list">

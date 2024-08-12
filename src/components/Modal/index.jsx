@@ -6,8 +6,8 @@ export default function Modal({openModal, handleModal, children}) {
   return createPortal (
     <>
       {openModal && (
-        <div className="modal-overlay">
-          <div className="modal-content">
+        <div className="modal-overlay" onClick={handleModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-close">
               <X onClick={handleModal} className='logo-close'/>
             </div>

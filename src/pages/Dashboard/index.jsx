@@ -20,6 +20,7 @@ export default function Dashboard() {
         // console.log("Toast message removed");
       }, 500);
     }
+
   }, []);
 
   return (

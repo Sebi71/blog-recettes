@@ -1,7 +1,6 @@
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Input, Space } from "antd";
 import { Undo2 } from "lucide-react";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -33,11 +32,14 @@ export default function ChangePassword() {
     }
   };
 
+  const handleReturn = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <section className="container-change-password">
-      <Link to="/dashboard">
-        <Undo2 className="logo-return" />
-      </Link>
+        <Undo2  onClick={handleReturn} className="logo-return" />
+      <h1 className="title-change-password">Modifier votre mot de passe</h1>
       <form className="form-password" onSubmit={handleSubmit(onSubmit)}>
         <Space direction="vertical">
           <label htmlFor="oldPassword" className="label-title">
@@ -104,7 +106,7 @@ export default function ChangePassword() {
 
           {error && <span className="error">{error}</span>}
         </Space>
-        <button className="button" type="submit">
+        <button className="button" type="submit" aria-label="Validation du formulaire">
           Mettre à jour le mot de passe
         </button>
       </form>
