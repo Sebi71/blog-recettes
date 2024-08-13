@@ -154,7 +154,7 @@ export default function UpdateCooking({ openModal, handleModal }) {
   return (
     <div>
       <Modal openModal={openModal} handleModal={handleCloseModal}>
-        <form className="form" onSubmit={handleSubmit(onSubmit)}>
+        <form className="form-update" onSubmit={handleSubmit(onSubmit)}>
           <div className="input-item">
             <label htmlFor="category" className="label-form">
               Catégorie :

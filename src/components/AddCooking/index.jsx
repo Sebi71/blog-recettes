@@ -148,7 +148,7 @@ export default function AddCooking({ openModal, handleModal }) {
   return (
     <div>
       <Modal openModal={openModal} handleModal={handleCloseModal}>
-        <form className="form" onSubmit={handleSubmit(onSubmit)}>
+        <form className="form-add" onSubmit={handleSubmit(onSubmit)}>
           <div className="input-item">
             <label htmlFor="category" className="label-form">
               Catégorie :
