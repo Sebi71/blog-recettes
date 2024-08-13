@@ -34,6 +34,11 @@ export default function HomeCard() {
     return () => unsubscribe();
   }, []);
 
+  const getFirstName = (fullName) => {
+    if (!fullName) return '';
+    return fullName.split(' ')[0];
+  }
+
   return (
     <div className="global-container-home">
       {cookings.length ? (
@@ -105,7 +110,7 @@ export default function HomeCard() {
                       <h3 className="card-name-home">{item.name}</h3>
                       <p className="card-category-home">{item.category}</p>
                       <p className="card-info-home">
-                        Ajouté par {item.authorName}, le {formattedDate}
+                        Ajouté par {getFirstName(item.authorName)}, le {formattedDate}
                       </p>
                     </div>
                   </Link>
