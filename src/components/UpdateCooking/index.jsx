@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Modal from "../Modal";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,20 +9,23 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../db/firebase";
 import useAuth from "../../hook/useAuth";
 import { useFirebase } from "../../hook/useCooking";
-import { Delete } from 'lucide-react';
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"
+import { Delete } from "lucide-react";
 import "./index.scss";
 
-export default function AddAndUpdate({ openModal, handleModal }) {
-  const { addCooking } = useFirebase();
+export default function UpdateCooking({ openModal, handleModal }) {
+  const navigate = useNavigate();
+  const { cookings, updateCooking } = useFirebase();
   const { user } = useAuth();
   const [file, setFile] = useState(null);
   const [pdfFile, setPdfFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
-  const [pdfPreview, setPdfPreview] = useState("");
+  const [currentImage, setCurrentImage] = useState(null);
+  const [currentPdf, setCurrentPdf] = useState(null);
   const [errorImage, setErrorImage] = useState("");
   const [errorPdf, setErrorPdf] = useState("");
+
+  const { id } = useParams();
+
+  const cookingUpdated = cookings.find((cooking) => cooking.id === id);
 
   const {
     handleSubmit,
@@ -30,16 +34,21 @@ export default function AddAndUpdate({ openModal, handleModal }) {
     reset,
   } = useForm({
     resolver: yupResolver(cookingSchemaValidation),
-    defaultValues: {
-      category: "",
-      name: "",
-      ingredients: [{ value: "" }], 
-      preparation: "",
-      link: "",
-      image: "",
-      pdf: "",
-    },
+    defaultValues: cookingUpdated,
   });
+
+  useEffect(() => {
+    if (cookingUpdated) {
+      reset({
+        ...cookingUpdated,
+        ingredients: cookingUpdated.ingredients.map((ingredient) => ({
+          value: ingredient,
+        })),
+      });
+      setCurrentImage(cookingUpdated.image);
+      setCurrentPdf(cookingUpdated.pdf);
+    }
+  }, [cookingUpdated, reset]);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -47,11 +56,7 @@ export default function AddAndUpdate({ openModal, handleModal }) {
   });
 
   const handleCloseModal = () => {
-    reset(); 
-    setFile(null);
-    setImagePreview(null);
-    setPdfFile(null);
-    setPdfPreview(null);
+    reset();
     setErrorImage("");
     setErrorPdf("");
     handleModal(false);
@@ -59,34 +64,41 @@ export default function AddAndUpdate({ openModal, handleModal }) {
 
   const handleChange = (e) => {
     const selectedFile = e.target.files?.[0];
-  
-    if (e.target.id === 'image') {
-      const validImageTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+
+    if (e.target.id === "image") {
+      const validImageTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+        "image/jpg",
+      ];
       if (selectedFile && !validImageTypes.includes(selectedFile.type)) {
-        setErrorImage('Veuillez sélectionner un fichier image valide (jpeg, png, webp, jpg).');
+        setErrorImage(
+          "Veuillez sélectionner un fichier image valide (jpeg, png, webp, jpg)."
+        );
         setFile(null);
-        setImagePreview(null);
+        setCurrentImage(null);
         return;
       }
-      
+
       setFile(selectedFile);
       if (selectedFile) {
         const imageUrl = URL.createObjectURL(selectedFile);
-        setImagePreview(imageUrl);
+        setCurrentImage(imageUrl);
       }
-    } else if (e.target.id === 'pdf') {
-      const validPdfType = 'application/pdf';
+    } else if (e.target.id === "pdf") {
+      const validPdfType = "application/pdf";
       if (selectedFile && selectedFile.type !== validPdfType) {
-        setErrorPdf('Veuillez sélectionner un fichier PDF valide.');
+        setErrorPdf("Veuillez sélectionner un fichier PDF valide.");
         setPdfFile(null);
-        setPdfPreview(null);
+        setCurrentPdf(null);
         return;
       }
-      
+
       setPdfFile(selectedFile);
       if (selectedFile) {
         const pdfUrl = URL.createObjectURL(selectedFile);
-        setPdfPreview(pdfUrl);
+        setCurrentPdf(pdfUrl);
       }
     }
   };
@@ -95,41 +107,45 @@ export default function AddAndUpdate({ openModal, handleModal }) {
     try {
       if (!user) {
         throw new Error(
-          "L'utilisateur doit être authentifié pour ajouter une recette."
+          "L'utilisateur doit être authentifié pour modifier une recette."
         );
       }
 
+      const ingredientsArray = Array.isArray(formData.ingredients)
+        ? formData.ingredients.map((ingredient) => ingredient.value)
+        : [];
+
       const formattedData = {
         ...formData,
-        ingredients: formData.ingredients ? formData.ingredients.map(ingredient => ingredient.value).join(", ") : "",
+        ingredients: ingredientsArray,
       };
 
-      let imageUrl = "";
+      let imageUrl = currentImage;
       if (file) {
         const imageRef = ref(storage, `recettesImages/${file.name}`);
         await uploadBytes(imageRef, file);
         imageUrl = await getDownloadURL(imageRef);
       }
 
-      let pdfUrl = "";
+      let pdfUrl = currentPdf;
       if (pdfFile) {
         const pdfRef = ref(storage, `recettesPDF/${pdfFile.name}`);
         await uploadBytes(pdfRef, pdfFile);
         pdfUrl = await getDownloadURL(pdfRef);
       }
 
-      await addCooking({
+      await updateCooking({
         ...formattedData,
-        ingredients: formData.ingredients.map(ingredient => ingredient.value), 
+        ingredients: formData.ingredients.map((ingredient) => ingredient.value),
         image: imageUrl,
         pdf: pdfUrl,
         authorName: user.displayName,
         authorId: user.uid,
         createdAt: new Date(),
       });
-      toast.success("La recette a été ajoutée avec succès");
-      handleCloseModal()
-
+      localStorage.setItem("toastUpdate", "Recette modifié avec succès");
+      handleCloseModal();
+      navigate("/dashboard");
     } catch (error) {
       console.error("Erreur lors de la soumission du formulaire", error);
     }
@@ -194,6 +210,7 @@ export default function AddAndUpdate({ openModal, handleModal }) {
                   control={control}
                   render={({ field }) => (
                     <input
+                      id="ingredients"
                       type="text"
                       className="input-form"
                       {...field}
@@ -201,7 +218,10 @@ export default function AddAndUpdate({ openModal, handleModal }) {
                   )}
                 />
                 {index > 0 && (
-                  <Delete className="remove-ingredient-btn" onClick={() => remove(index)}/>
+                  <Delete
+                    className="remove-ingredient-btn"
+                    onClick={() => remove(index)}
+                  />
                 )}
               </div>
             ))}
@@ -275,8 +295,8 @@ export default function AddAndUpdate({ openModal, handleModal }) {
             {errorImage && <div className="error-form">{errorImage}</div>}
           </div>
 
-          {imagePreview && (
-            <img className="view-image" src={imagePreview} alt="Preview" />
+          {currentImage && (
+            <img className="view-image" src={currentImage} alt="Preview" />
           )}
 
           <div className="input-item">
@@ -294,14 +314,13 @@ export default function AddAndUpdate({ openModal, handleModal }) {
               <div className="error-form">{errors.pdf.message}</div>
             )}
             {errorPdf && <div className="error-form">{errorPdf}</div>}
-
           </div>
 
-          {pdfPreview && (
+          {currentPdf && (
             <div className="pdf-preview">
               <p>
                 PDF sélectionné :{" "}
-                <a href={pdfPreview} target="_blank" rel="noopener noreferrer">
+                <a href={currentPdf} target="_blank" rel="noopener noreferrer">
                   Ouvrir le PDF
                 </a>
               </p>
@@ -309,7 +328,7 @@ export default function AddAndUpdate({ openModal, handleModal }) {
           )}
 
           <button className="btn-form" type="submit">
-            Ajouter la recette
+            Modifier la recette
           </button>
         </form>
       </Modal>

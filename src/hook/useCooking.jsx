@@ -71,5 +71,18 @@ export const useFirebase = () => {
     }
   };
 
-  return { cookings, addCooking, deleteCooking };
+  const updateCooking = async (data) => {
+    try {
+      const cookingRef = doc(db, "cookings", data.id);
+      await updateDoc(cookingRef, data);
+      setCookings(
+        cookings.map((cooking) => (cooking.id === data.id ? { ...cooking, ...data } : cooking))
+      );
+    } catch (error) {
+      console.error("Error updating document: ", error);
+      throw new Error(error.message);
+    }
+  }
+
+  return { cookings, addCooking, deleteCooking, updateCooking };
 };

@@ -11,6 +11,7 @@ import DefaultImg from "/default-img.webp";
 import "./index.scss";
 import Loader from "../../components/Load";
 import NotFound from "../NotFound";
+import UpdateCooking from "../../components/UpdateCooking";
 
 export default function Cooking() {
   const navigate = useNavigate();
@@ -19,6 +20,11 @@ export default function Cooking() {
   const [cooking, setCooking] = useState({});
   //   console.log(cooking);
   const [loading, setLoading] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleModal = () => {
+    setOpenModal(!openModal);
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -66,6 +72,20 @@ export default function Cooking() {
     navigate("/");
   };
 
+  function formatPreparation(preparation) {
+    if (!preparation) return [];
+    return preparation
+      .split(".")
+      .map(sentence => sentence.trim())
+      .filter(sentence => sentence.length > 0)
+      .map((sentence, index) => (
+        <li key={index} className="list-style">
+          {sentence}.
+        </li>
+      ));
+  }
+  
+
   return (
     <>
       <NavBar />
@@ -77,7 +97,7 @@ export default function Cooking() {
                 <button onClick={handleReturn} className="return-dashboard">
                   Dashboard
                 </button>
-                <button className="btn-update">Modifier</button>
+                <button onClick={handleModal} className="btn-update">Modifier</button>
             </div>
           )}
         </div>
@@ -105,7 +125,7 @@ export default function Cooking() {
         )}
 
         {cooking?.preparation && (
-          <p className="preparation-cookingId">{cooking?.preparation}</p>
+          <p className="preparation-cookingId">{formatPreparation(cooking?.preparation)}</p>
         )}
 
         {cooking?.pdf && (
@@ -136,6 +156,7 @@ export default function Cooking() {
           </div>
         )}
       </section>
+      <UpdateCooking openModal={openModal} handleModal={handleModal} />
       <Footer />
     </>
   );

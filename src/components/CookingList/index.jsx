@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import Card from "../Card";
-import AddAndUpdate from "../AddAndUpdate";
+import AddCooking from "../AddCooking";
 import "./index.scss";
 
 export default function CookingList() {
@@ -21,7 +21,7 @@ export default function CookingList() {
       </div>
       <h3 className="cooking-subtitle">Voici la liste de vos recettes</h3>
       <Card />
-      <AddAndUpdate openModal={openModal} handleModal={handleModal} />
+      <AddCooking openModal={openModal} handleModal={handleModal} />
     </div>
   );
 }

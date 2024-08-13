@@ -14,7 +14,7 @@
     }
 
     .return-home {
-      margin-left: 5%;
+      margin-left: 1rem;
       width: 40px;
       height: 40px;
       cursor: pointer;
@@ -81,7 +81,7 @@
   .user-cookingId {
     color: #6c757d;
     text-align: right;
-    margin-right: 5%;
+    margin-right: 2rem;
   }
 
   .content-ingredient-img {
@@ -131,9 +131,18 @@
     color: #001b32;
     min-height: 300px;
     margin: 0 2rem 2rem;
+    line-height: 3rem;
 
     &::first-letter {
       text-transform: capitalize;
+    }
+  }
+
+  .list-style {
+    list-style-type: upper;
+
+    &::marker {
+      font-weight: 600;
     }
   }
 
