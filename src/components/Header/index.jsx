@@ -4,7 +4,7 @@ import ImageCuisine from "/cuisine.webp";
 export default function Header() {
   return (
     <div className="container-header">
-      <h1 className="header-title">Book recettes</h1>
+      <h1 className="header-title">Mon Blog recettes</h1>
       <div className="header-content">
         <div className="header-content-text">
           <div className="header-content-subtitle-text">
