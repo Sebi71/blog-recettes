@@ -43,6 +43,32 @@
       }
     }
 
+
+    .container-search {
+      width: 300px;
+      margin: auto;
+      position: relative;
+      display: flex;
+      align-items: center;
+      padding-bottom: 1.5rem;
+
+      .input-search {
+        height: 2.5rem;
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #d1d5db;
+        padding-top: 0.5rem; 
+        padding-bottom: 0.5rem;
+        padding-left: 2.5rem; 
+        color: #000;
+      }
+
+      .content-search-logo {
+        position: absolute;
+        margin-left: 0.5rem;
+      }
+    }
+
     .container-card-home {
       display: grid;
       grid-template-columns: repeat(1, 1fr);

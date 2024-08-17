@@ -4,7 +4,7 @@ import { db } from "../../db/firebase";
 import { Link } from "react-router-dom";
 import ExplainText from "../ExplainText";
 import DefaultImage from "/default-img.webp";
-
+import { Search } from "lucide-react";
 import "./index.scss";
 
 export default function HomeCard() {
@@ -34,10 +34,29 @@ export default function HomeCard() {
     return () => unsubscribe();
   }, []);
 
+  const searchCooking = (e) => {
+    const value = e.target.value;
+    const cookingsRef = collection(db, "cookings");
+
+    onSnapshot(cookingsRef, (snapshot) => {
+      const cookingList = snapshot.docs.map((doc) => {
+        return {
+          id: doc.id,
+          ...doc.data(),
+        };
+      });
+      const searchedCookings = cookingList.filter((cooking) =>
+        cooking.name.toLowerCase().includes(value.toLowerCase())
+      );
+
+      setCooking(searchedCookings);
+    });
+  };
+
   const getFirstName = (fullName) => {
-    if (!fullName) return '';
-    return fullName.split(' ')[0];
-  }
+    if (!fullName) return "";
+    return fullName.split(" ")[0];
+  };
 
   return (
     <div className="global-container-home">
@@ -81,6 +100,16 @@ export default function HomeCard() {
               Autres
             </button>
           </div>
+          <div className="container-search">
+            <input
+              onChange={searchCooking}
+              type="text"
+              className="input-search"
+            />
+            <div className="content-search-logo">
+              <Search />
+            </div>
+          </div>
           <div className="container-card-home">
             {filterCookings.map((item, idx) => {
               const createdAtDate = item.createdAt?.toDate();
@@ -110,7 +139,8 @@ export default function HomeCard() {
                       <h3 className="card-name-home">{item.name}</h3>
                       <p className="card-category-home">{item.category}</p>
                       <p className="card-info-home">
-                        Ajouté par {getFirstName(item.authorName)}, le {formattedDate}
+                        Ajouté par {getFirstName(item.authorName)}, le{" "}
+                        {formattedDate}
                       </p>
                     </div>
                   </Link>
