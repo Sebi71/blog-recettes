@@ -60,56 +60,81 @@ export default function HomeCard() {
 
   return (
     <div className="global-container-home">
-      {cookings.length ? (
-        <div className="global-card-home">
-          <div className="btn-container-home">
-            <button
-              className="btn-filter-home"
-              onClick={() => handleFilter("Toutes")}
-            >
-              Toutes
-            </button>
-            <button
-              className="btn-filter-home"
-              onClick={() => handleFilter("Entrées")}
-            >
-              Entrées
-            </button>
-            <button
-              className="btn-filter-home"
-              onClick={() => handleFilter("Plats")}
-            >
-              Plats
-            </button>
-            <button
-              className="btn-filter-home"
-              onClick={() => handleFilter("Desserts")}
-            >
-              Desserts
-            </button>
-            <button
-              className="btn-filter-home"
-              onClick={() => handleFilter("Boissons")}
-            >
-              Boissons
-            </button>
-            <button
-              className="btn-filter-home"
-              onClick={() => handleFilter("Autres")}
-            >
-              Autres
-            </button>
+      <div className="global-card-home">
+        <div className="btn-container-home">
+          <button
+            className={
+              selectCookings === "Toutes"
+                ? "btn-filter-active"
+                : "btn-filter-home"
+            }
+            onClick={() => handleFilter("Toutes")}
+          >
+            Toutes
+          </button>
+          <button
+            className={
+              selectCookings === "Entrées"
+                ? "btn-filter-active"
+                : "btn-filter-home"
+            }
+            onClick={() => handleFilter("Entrées")}
+          >
+            Entrées
+          </button>
+          <button
+            className={
+              selectCookings === "Plats"
+                ? "btn-filter-active"
+                : "btn-filter-home"
+            }
+            onClick={() => handleFilter("Plats")}
+          >
+            Plats
+          </button>
+          <button
+            className={
+              selectCookings === "Desserts"
+                ? "btn-filter-active"
+                : "btn-filter-home"
+            }
+            onClick={() => handleFilter("Desserts")}
+          >
+            Desserts
+          </button>
+          <button
+            className={
+              selectCookings === "Boissons"
+                ? "btn-filter-active"
+                : "btn-filter-home"
+            }
+            onClick={() => handleFilter("Boissons")}
+          >
+            Boissons
+          </button>
+          <button
+            className={
+              selectCookings === "Autres"
+                ? "btn-filter-active"
+                : "btn-filter-home"
+            }
+            onClick={() => handleFilter("Autres")}
+          >
+            Autres
+          </button>
+        </div>
+        <div className="container-search">
+          <input
+            onChange={searchCooking}
+            type="text"
+            className="input-search"
+            aria-label="Rechercher"
+          />
+          <div className="content-search-logo">
+            <Search />
           </div>
-          <div className="container-search">
-            <input
-              onChange={searchCooking}
-              type="text"
-              className="input-search"
-            />
-            <div className="content-search-logo">
-              <Search />
-            </div>
-          </div>
+        </div>
+        {cookings.length ? (
           <div className="container-card-home">
             {filterCookings.map((item, idx) => {
               const createdAtDate = item.createdAt?.toDate();
@@ -148,10 +173,10 @@ export default function HomeCard() {
               );
             })}
           </div>
-        </div>
-      ) : (
-        <ExplainText />
-      )}
+        ) : (
+          <ExplainText />
+        )}
+      </div>
     </div>
   );
 }

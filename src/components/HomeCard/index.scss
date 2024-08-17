@@ -16,7 +16,7 @@
       gap: 10px;
       margin-bottom: 2rem;
 
-      .btn-filter-home {
+      .btn-filter-home, .btn-filter-active {
         background-color: #fbfbef;
         color: #001b32;
         font-size: 14px;
@@ -40,6 +40,10 @@
             box-shadow: 0px 0px 30px 1px rgba(0, 0, 0, 0.2);
           }
         }
+      }
+
+      .btn-filter-active {
+        background-color: #D4AF37;
       }
     }
 
