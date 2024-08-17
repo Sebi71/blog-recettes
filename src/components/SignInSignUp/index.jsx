@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import useAuth from "../../hook/useAuth";
 import useAuthActions from "../../hook/authActions";
 import logoGoogle from "/logo-google.webp";
@@ -19,6 +20,7 @@ export default function SignInSignUp() {
     handleResetPassword,
     handleFormSubmit,
   } = useAuthActions();
+  
 
   useEffect(() => {
     redirectIfAuth();
@@ -102,19 +104,19 @@ export default function SignInSignUp() {
         )}
 
         {!isSignUpActive && (
-          <a href="#" onClick={handleResetPassword} className="reset-password">
+          <Link to="#" onClick={handleResetPassword} className="reset-password">
             Mot de passe oublié
-          </a>
+          </Link>
         )}
 
         {isSignUpActive ? (
-          <a href="#" onClick={handleFormChange} className="link">
+          <Link to="#" onClick={handleFormChange} className="link">
             Déjà un compte ? Se connecter
-          </a>
+          </Link>
         ) : (
-          <a href="#" onClick={handleFormChange} className="link">
+          <Link to="#" onClick={handleFormChange} className="link">
             Pas de compte ? S&apos;inscrire
-          </a>
+          </Link>
         )}
       </form>
       <button onClick={loginWithGoogle} className="button-google">
