@@ -10,12 +10,22 @@ import "./index.scss";
 export default function HomeCard() {
   const [cookings, setCooking] = useState([]);
   const [selectCookings, setSelectCookings] = useState("Toutes");
+  const [sortType, setSortType] = useState("date");
 
   const handleFilter = (category) => {
     setSelectCookings(category);
   };
 
-  const filterCookings = cookings.filter((cooking) =>
+  const sortedCookings = [...cookings].sort((a, b) => {
+    if (sortType === "date") {
+      return b.createdAt.toDate() - a.createdAt.toDate();
+    } else if (sortType === "alphabetique") {
+      return a.name.localeCompare(b.name);
+    }
+    return 0;
+  });
+
+  const filterCookings = sortedCookings.filter((cooking) =>
     selectCookings === "Toutes" ? true : cooking.category === selectCookings
   );
 
@@ -123,6 +133,30 @@ export default function HomeCard() {
             Autres
           </button>
         </div>
+
+        <div className="btn-sort-container">
+          <button 
+            className= {
+              sortType === "date"
+                ? "btn-sort-active btn-sort"
+                : "btn-sort"
+            }
+            onClick={() => setSortType("date")}
+          >
+            Trier par date d&apos;ajout
+          </button>
+          <button
+            className= {
+              sortType === "alphabetique"
+                ? "btn-sort-active btn-sort"
+                : "btn-sort"
+            }
+            onClick={() => setSortType("alphabetique")}
+          >
+            Trier par ordre alphabétique
+          </button>
+        </div>
+
         <div className="container-search">
           <input
             onChange={searchCooking}

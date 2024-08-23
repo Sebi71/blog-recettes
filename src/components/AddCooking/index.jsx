@@ -98,6 +98,12 @@ export default function AddCooking({ openModal, handleModal }) {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  };
+
   const onSubmit = async (formData) => {
     try {
       if (!user) {
@@ -148,7 +154,7 @@ export default function AddCooking({ openModal, handleModal }) {
   return (
     <div>
       <Modal openModal={openModal} handleModal={handleCloseModal}>
-        <form className="form-add" onSubmit={handleSubmit(onSubmit)}>
+        <form className="form-add" onKeyDown={handleKeyDown} onSubmit={handleSubmit(onSubmit)}>
           <div className="input-item">
             <label htmlFor="category" className="label-form">
               Catégorie :

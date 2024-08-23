@@ -47,6 +47,28 @@
       }
     }
 
+    .btn-sort-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 2rem;
+
+      .btn-sort {
+        width: 225px;
+        border: 1px solid #001b32;
+        border-radius: 5px;
+
+        &:hover {
+          box-shadow: 0px 0px 30px 1px rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      .btn-sort-active {
+        background-color: #fbfbef;
+        font-weight: 500;
+        scale: 1.05;
+      }
+    }
 
     .container-search {
       width: 300px;

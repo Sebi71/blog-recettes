@@ -25,7 +25,11 @@ export default function Card() {
     }
   };
 
-  const filterCookings = cookings.filter((cooking) =>
+  const sortedCookings = [...cookings].sort((a, b) => {
+    return b.createdAt.toDate() - a.createdAt.toDate();
+  });
+
+  const filterCookings = sortedCookings.filter((cooking) =>
     selectCookings === "Toutes" ? true : cooking.category === selectCookings
   );
 
