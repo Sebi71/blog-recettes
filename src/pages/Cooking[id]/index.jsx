@@ -12,6 +12,7 @@ import "./index.scss";
 import Loader from "../../components/Load";
 import NotFound from "../NotFound";
 import UpdateCooking from "../../components/UpdateCooking";
+import { fetchPreviewData } from "../../services/PreviewAPI";
 
 export default function Cooking() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export default function Cooking() {
   //   console.log(cooking);
   const [loading, setLoading] = useState(true);
   const [openModal, setOpenModal] = useState(false);
+  const [previewData, setPreviewData] = useState(null);
 
   const handleModal = () => {
     setOpenModal(!openModal);
@@ -49,6 +51,16 @@ export default function Cooking() {
     return () => unsubscribe();
   }, [id]);
 
+  useEffect(() => {
+    const getPreview = async () => {
+      if (cooking?.link) {
+        const data = await fetchPreviewData(cooking.link);
+        setPreviewData(data);
+      }
+    };
+    getPreview();
+  }, [cooking?.link]);
+
   if (loading) {
     return <Loader />;
   }
@@ -76,15 +88,14 @@ export default function Cooking() {
     if (!preparation) return [];
     return preparation
       .split(".")
-      .map(sentence => sentence.trim())
-      .filter(sentence => sentence.length > 0)
+      .map((sentence) => sentence.trim())
+      .filter((sentence) => sentence.length > 0)
       .map((sentence, index) => (
         <li key={index} className="list-style">
           {sentence}.
         </li>
       ));
   }
-  
 
   return (
     <>
@@ -94,10 +105,12 @@ export default function Cooking() {
           <Undo2 onClick={handleHome} className="return-home" />
           {cooking?.authorId === user?.uid && (
             <div className="btn-admin">
-                <button onClick={handleReturn} className="return-dashboard">
-                  Dashboard
-                </button>
-                <button onClick={handleModal} className="btn-update">Modifier</button>
+              <button onClick={handleReturn} className="return-dashboard">
+                Dashboard
+              </button>
+              <button onClick={handleModal} className="btn-update">
+                Modifier
+              </button>
             </div>
           )}
         </div>
@@ -125,7 +138,9 @@ export default function Cooking() {
         )}
 
         {cooking?.preparation && (
-          <p className="preparation-cookingId">{formatPreparation(cooking?.preparation)}</p>
+          <p className="preparation-cookingId">
+            {formatPreparation(cooking?.preparation)}
+          </p>
         )}
 
         {cooking?.pdf && (
@@ -143,16 +158,52 @@ export default function Cooking() {
           </div>
         )}
 
-        {cooking?.link && (
+        {/* {cooking?.link && (
           <div className="link-cookingId">
-            <p>
-              Retrouver la recette{" "}
-              <span className="name-cookingId">{cooking?.name}</span> sur le
-              site :
-            </p>
-            <Link to={cooking?.link} target="_blank" rel="noopener">
-              {cooking?.link}
-            </Link>
+            <div className="link-cookingId-text">
+              <p>
+                Retrouver la recette{" "}
+                <span className="name-cookingId">{cooking?.name}</span> sur le
+                site :
+              </p>
+              <Link to={cooking?.link} target="_blank" rel="noopener">
+                {cooking?.link}
+              </Link>
+            </div>
+            <iframe
+              src={cooking?.link}
+              title="Page de la recette"
+              className="link-cookingId-iframe"
+            ></iframe>
+          </div>
+        )} */}
+
+        {cooking?.link && previewData && (
+          <div className="link-cookingId">
+            <div className="link-cookingId-text">
+              <p>
+                Retrouver la recette{" "}
+                <span className="name-cookingId">{cooking?.name}</span> sur le
+                site :
+              </p>
+              <Link to={cooking?.link} target="_blank" rel="noopener">
+                {cooking?.link}
+              </Link>
+            </div>
+            <div className="site-preview">
+              <h2>{previewData.title}</h2>
+              {previewData.image && (
+                <img className="site-preview-img" src={previewData.image} alt={previewData.title} />
+              )}
+              <p>{previewData.description}</p>
+              <a
+                href={previewData.url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Visiter le site
+              </a>
+            </div>
           </div>
         )}
       </section>

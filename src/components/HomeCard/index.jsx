@@ -197,12 +197,12 @@ export default function HomeCard() {
                     <div>
                       <h3 className="card-name-home">{item.name}</h3>
                       <p className="card-category-home">{item.category}</p>
+                    </div>
+                  </Link>
                       <p className="card-info-home">
                         Ajouté par {getFirstName(item.authorName)}, le{" "}
                         {formattedDate}
                       </p>
-                    </div>
-                  </Link>
                 </div>
               );
             })}
