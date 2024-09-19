@@ -164,8 +164,6 @@
 
   .link-cookingId {
     margin: 3rem 2rem 2rem;
-    height: 100vh;
-
 
     @media screen and (min-width: 768px) {
       font-size: 18px;
@@ -184,15 +182,18 @@
     }
 
     .site-preview {
+      padding-bottom: 5rem;
 
       .site-preview-img {
         width: 100%;
         height: 200px;
         object-fit: cover;
+        object-position: top;
         margin-bottom: 2rem;
 
         @media screen and (min-width: 768px) {
           height: 400px;
+          object-fit: none;
         }
       }
     }
