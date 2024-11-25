@@ -1,0 +1,38 @@
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px;
+    text-align: center;
+    z-index: 1000;
+  }
+  
+  .cookie-banner p {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  .cookie-actions {
+    margin-top: 10px;
+  }
+  
+  .cookie-actions button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  .cookie-actions button.cookie-reject {
+    background-color: #f44336;
+  }
+  
+  .cookie-actions button:hover {
+    opacity: 0.8;
+  }
+  
