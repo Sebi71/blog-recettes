@@ -10,6 +10,7 @@ import NotFound from "../../pages/NotFound"
 
 import useAuth from "../../hook/useAuth";
 import "./index.scss"
+import PoliticsPrivacy from "../../pages/PoliticsPrivacy"
 
 export default function AppRoutes() {
     const {user} = useAuth()
@@ -21,6 +22,7 @@ export default function AppRoutes() {
       <Route path="/dashboard/password" element={<ProtectedRoute user={user}><Password /></ProtectedRoute>} />
       <Route path="/recette/:id" element={<Cooking />} />
       <Route path="/mentions-legales" element={<Rules />} />
+      <Route path="/politics-privacy" element={<PoliticsPrivacy />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

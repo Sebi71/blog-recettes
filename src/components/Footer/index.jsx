@@ -2,6 +2,7 @@ import Logo from "/logo-site.webp";
 import { Link } from "react-router-dom";
 import { Mail } from "lucide-react";
 import { Scale } from "lucide-react";
+import { GlobeLock } from "lucide-react";
 
 import "./index.scss";
 
@@ -16,7 +17,7 @@ export default function Footer() {
           alt="logo du site"
           className="logo-site"
         />
-        <div>
+        <div className="content-link-footer">
           <Link className="link-contact" to="mailto:seb.juillet@outlook.fr">
             <Mail />
             <span>Contact</span>
@@ -24,6 +25,10 @@ export default function Footer() {
           <Link className="link-contact" to="/mentions-legales">
             <Scale />
             Mentions l&eacute;gales
+          </Link>
+          <Link className="link-contact" to="/politics-privacy">
+            <GlobeLock />
+            Politique de confidentialité
           </Link>
         </div>
       </div>

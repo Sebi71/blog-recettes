@@ -1,0 +1,23 @@
+.politics-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+
+    .politics-title {
+        text-align: center;
+        font-weight: 700;
+        margin-bottom: 2rem;
+    }
+
+    .politics-content {
+        margin-top: 50px;
+
+        .politics-subtitle {
+            font-size: 20px;
+
+            @media screen and (min-width: 768px) {
+                font-size: 28px;
+            }
+        }
+    }
+}
