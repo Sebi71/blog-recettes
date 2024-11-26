@@ -6,6 +6,7 @@ import Dashboard from "../../pages/Dashboard"
 import Password from "../../pages/Password"
 import Cooking from "../../pages/Cooking[id]"
 import Rules from "../../pages/Rules"
+import CGU from "../../pages/CGU"
 import NotFound from "../../pages/NotFound"
 
 import useAuth from "../../hook/useAuth";
@@ -22,7 +23,8 @@ export default function AppRoutes() {
       <Route path="/dashboard/password" element={<ProtectedRoute user={user}><Password /></ProtectedRoute>} />
       <Route path="/recette/:id" element={<Cooking />} />
       <Route path="/mentions-legales" element={<Rules />} />
-      <Route path="/politics-privacy" element={<PoliticsPrivacy />} />
+      <Route path="/politique-de-confidentialite" element={<PoliticsPrivacy />} />
+      <Route path="/CGU" element={<CGU />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   )

@@ -1,8 +1,7 @@
 import Logo from "/logo-site.webp";
 import { Link } from "react-router-dom";
 import { Mail } from "lucide-react";
-import { Scale } from "lucide-react";
-import { GlobeLock } from "lucide-react";
+import { Scale, GlobeLock, ReceiptText } from "lucide-react";
 
 import "./index.scss";
 
@@ -26,9 +25,13 @@ export default function Footer() {
             <Scale />
             Mentions l&eacute;gales
           </Link>
-          <Link className="link-contact" to="/politics-privacy">
+          <Link className="link-contact" to="/politique-de-confidentialite">
             <GlobeLock />
             Politique de confidentialité
+          </Link>
+          <Link className="link-contact" to="/CGU">
+            <ReceiptText />
+            Conditions Générales d&apos;Utilisation
           </Link>
         </div>
       </div>

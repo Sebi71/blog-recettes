@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+import {Link} from "react-router-dom";
 import "./index.scss"; 
+
+
 const CookieBanner = () => {
   const [showBanner, setShowBanner] = useState(false);
 
@@ -25,7 +28,7 @@ const CookieBanner = () => {
     <div className="cookie-banner">
       <p>
         Nous utilisons des cookies pour améliorer votre expérience. En poursuivant votre navigation, vous acceptez notre{" "}
-        <a href="/mentions-legales">politique de confidentialité</a>.
+        <Link to="/politique-de-confidentialite">politique de confidentialité</Link>.
       </p>
       <div className="cookie-actions">
         <button onClick={handleAccept} className="cookie-accept">
